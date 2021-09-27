@@ -8,7 +8,7 @@ import DetailTransaction from "screens/DetailTransaction";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export default function App() {
+export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -16,7 +16,7 @@ export default function App() {
           name={RoutingName.HOME}
           component={Home}
           options={{
-            title: "Home",
+            title: "Daftar Transaksi",
           }}
         />
 

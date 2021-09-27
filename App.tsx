@@ -1,4 +1,4 @@
-import Navigation from "helper/Navigation";
+import Navigation from "lib/Navigation";
 import React from "react";
 
 export default function App() {
