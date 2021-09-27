@@ -1,3 +1,6 @@
+/**
+ * define color and size for padding,margin, others in a single file
+ */
 const theme = {
   colors: {
     white: "#fff",

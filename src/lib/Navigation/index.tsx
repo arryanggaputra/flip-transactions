@@ -8,6 +8,9 @@ import DetailTransaction from "screens/DetailTransaction";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+/**
+ * Screen registration should be done on this component
+ */
 export default function Navigation() {
   return (
     <NavigationContainer>

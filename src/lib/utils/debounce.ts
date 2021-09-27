@@ -1,3 +1,10 @@
+/**
+ * This function to debouncing your function
+ * @param callback function to call
+ * @param waitFor time to wait before fire the function
+ * @returns
+ * https://www.geeksforgeeks.org/debouncing-in-javascript/
+ */
 const debounce = <T extends (...args: any[]) => any>(
   callback: T,
   waitFor: number

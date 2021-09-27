@@ -3,8 +3,17 @@ import { getTransaction } from "lib/Service/transactions";
 import { Transaction_Entity } from "types";
 
 type Store = {
+  /**
+   * to load initial data
+   */
   initData: () => void;
+  /**
+   * to perform reset parameter
+   */
   resetParams: () => void;
+  /**
+   * list of transaction
+   */
   transactionLists: Transaction_Entity[];
 
   /**
