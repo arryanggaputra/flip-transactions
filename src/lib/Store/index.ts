@@ -4,12 +4,26 @@ import { Transaction_Entity } from "types";
 
 type Store = {
   initData: () => void;
+  resetParams: () => void;
   transactionLists: Transaction_Entity[];
+
   /**
    * state for search
    */
   searchKeyword: string;
   setSearchKeyword: (searchKeyword: string) => void;
+
+  /**
+   * sort params
+   */
+  sortField: {
+    key: keyof Transaction_Entity | undefined;
+    orderBy: "asc" | "desc";
+  };
+  setSortField: (
+    key: keyof Transaction_Entity | undefined,
+    orderBy: "asc" | "desc"
+  ) => void;
 };
 
 const useStore = create<Store>(
@@ -24,12 +38,35 @@ const useStore = create<Store>(
       });
     },
 
+    resetParams: () => {
+      set({
+        sortField: {
+          key: undefined,
+          orderBy: "asc",
+        },
+        searchKeyword: "",
+      });
+    },
+
     searchKeyword: "",
     setSearchKeyword: (searchKeyword: string) =>
       set((state) => ({
         ...state,
         searchKeyword,
       })),
+
+    sortField: {
+      key: undefined,
+      orderBy: "asc",
+    },
+    setSortField: (key, orderBy) => {
+      set({
+        sortField: {
+          key,
+          orderBy,
+        },
+      });
+    },
   })
 );
 

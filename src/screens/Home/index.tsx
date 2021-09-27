@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { FlatList, View, RefreshControl } from "react-native";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { FlatList, View, RefreshControl, Modal } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList, RoutingName } from "lib/Navigation/type";
@@ -10,29 +10,51 @@ import theme from "lib/Theme";
 import useStore from "lib/Store";
 import SearchBar from "components/SearchBar";
 import ViewUtils from "components/utils/View";
+import ModalSort from "./components/ModalSort";
+import sortGeneric from "lib/utils/sortGeneric";
 
 type THome = NativeStackNavigationProp<RootStackParamList, RoutingName.HOME>;
 
 const Home = () => {
   const navigation = useNavigation<THome>();
 
-  const { initData, transactionLists, searchKeyword } = useStore(
-    (state) => state
-  );
+  const { initData, transactionLists, searchKeyword, sortField, resetParams } =
+    useStore((state) => state);
 
   const [data, setData] = useState<Transaction_Entity[]>([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isModalSortVisible, setIsModalSortVisible] = useState(false);
 
   useEffect(() => {
     initData();
   }, []);
 
-  useEffect(() => {
+  const doFeedData = useCallback(() => {
     setData(transactionLists);
   }, [transactionLists]);
 
+  const doSortingData = useCallback(
+    (field: keyof Transaction_Entity, orderBy: "asc" | "desc") => {
+      let _data = [...data].sort(sortGeneric(field, orderBy));
+      setData(_data);
+    },
+    [data]
+  );
+
   useEffect(() => {
+    if (!sortField.key) {
+      doFeedData();
+      return;
+    }
+    doSortingData(sortField.key, sortField.orderBy);
+  }, [transactionLists, sortField]);
+
+  useEffect(() => {
+    /**
+     * Hide modal every data change
+     */
+    setIsModalSortVisible(false);
     setIsDataUpdated(!data);
     setIsLoading(false);
   }, [data]);
@@ -40,6 +62,7 @@ const Home = () => {
   const onRefreshTransactionLists = useCallback(() => {
     setIsLoading(true);
     initData();
+    resetParams();
   }, []);
 
   const searchByKeyword = useCallback(
@@ -68,20 +91,36 @@ const Home = () => {
     });
   }, []);
 
+  const onShowModalSort = useCallback(() => {
+    setIsModalSortVisible(true);
+  }, []);
+
+  const onCloseModalSort = useCallback(() => {
+    setIsModalSortVisible(false);
+  }, []);
+
   const renderItem = ({ item }: { item: Transaction_Entity }) => {
     return <TransactionList onPress={onPressTransactionRow} data={item} />;
   };
 
-  const ListHeaderComponent = () => {
+  const ListHeaderComponent = useMemo(() => {
     return (
       <ViewUtils marginBottom={theme.size.lg}>
-        <SearchBar />
+        <SearchBar onPressSorting={onShowModalSort} />
       </ViewUtils>
     );
-  };
+  }, []);
 
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isModalSortVisible}
+        onRequestClose={onCloseModalSort}
+      >
+        <ModalSort onClose={onCloseModalSort} />
+      </Modal>
       <FlatList
         refreshControl={
           <RefreshControl

@@ -1,4 +1,5 @@
 import Badge from "components/Badge";
+import formatCurrency from "lib/utils/formatCurrency";
 import React, { useCallback } from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import {
@@ -33,7 +34,9 @@ const TransactionList: React.FC<ITransactionList> = (props) => {
           {data.sender_bank} - {data.beneficiary_bank}
         </Text>
         <Text>{data.beneficiary_name}</Text>
-        <Text>{data.amount} - 6 Maret 2020</Text>
+        <Text>
+          {formatCurrency(data.amount)} - {data.created_at}
+        </Text>
       </View>
       {data.status === Transaction_Status_Entity.PENDING ? (
         <Badge variant="secondary" title="Pengecekan" />

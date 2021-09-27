@@ -1,10 +1,16 @@
 import React, { useCallback } from "react";
-import { TextInput, View } from "react-native";
+import { TextInput, TouchableOpacity, View } from "react-native";
 import theme from "lib/Theme";
 import debounce from "lib/utils/debounce";
 import useStore from "lib/Store";
+import Text from "components/utils/Text";
+import styles from "./styles";
 
-const SearchBar = () => {
+interface ISearchBar {
+  onPressSorting?: () => void;
+}
+
+const SearchBar: React.FC<ISearchBar> = (props) => {
   const { setSearchKeyword, searchKeyword } = useStore((state) => state);
 
   const onChangeTex = debounce(
@@ -15,23 +21,20 @@ const SearchBar = () => {
   );
 
   return (
-    <View
-      style={{
-        backgroundColor: theme.colors.white,
-        borderRadius: 8,
-      }}
-    >
+    <View style={styles.searchBar}>
       <TextInput
-        style={{
-          paddingVertical: theme.size.xl,
-          paddingHorizontal: theme.size.lg,
-        }}
+        style={styles.searchBar__input}
         defaultValue={searchKeyword}
         onChangeText={onChangeTex}
         placeholder="Cari nama, bank, atau nominal"
       />
+      <TouchableOpacity onPress={props.onPressSorting}>
+        <Text fontSize={12} fontWeight="bold" color={theme.colors.orange}>
+          URUTKAN
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-export default SearchBar;
+export default React.memo(SearchBar);
