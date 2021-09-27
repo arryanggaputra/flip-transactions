@@ -9,10 +9,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     alignItems: "center",
     backgroundColor: theme.colors.white,
-
     paddingRight: theme.size.lg,
-    marginBottom: theme.size.lg,
-    marginHorizontal: theme.size.lg,
   },
 
   card__content: {
