@@ -7,8 +7,11 @@ module.exports = function (api) {
         "module-resolver",
         {
           alias: {
-            helper: "./src/helper",
+            lib: "./src/lib",
             screens: "./src/screens",
+            components: "./src/components",
+            hooks: "./src/hooks",
+            types: "./src/types",
           },
         },
       ],
