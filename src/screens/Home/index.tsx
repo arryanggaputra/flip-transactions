@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, View, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList, RoutingName } from "lib/Navigation/type";
@@ -22,6 +22,7 @@ const Home = () => {
 
   const [data, setData] = useState<Transaction_Entity[]>([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     initData();
@@ -33,7 +34,13 @@ const Home = () => {
 
   useEffect(() => {
     setIsDataUpdated(!data);
+    setIsLoading(false);
   }, [data]);
+
+  const onRefreshTransactionLists = useCallback(() => {
+    setIsLoading(true);
+    initData();
+  }, []);
 
   const searchByKeyword = useCallback(
     (query) => {
@@ -76,6 +83,12 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={onRefreshTransactionLists}
+          />
+        }
         keyExtractor={(item) => item.id}
         data={data}
         extraData={isDataUpdated}
