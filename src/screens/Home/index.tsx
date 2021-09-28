@@ -18,8 +18,13 @@ type THome = NativeStackNavigationProp<RootStackParamList, RoutingName.HOME>;
 const Home = () => {
   const navigation = useNavigation<THome>();
 
-  const { initData, transactionLists, searchKeyword, sortField, resetParams } =
-    useStore((state) => state);
+  const {
+    initData,
+    transactionLists,
+    searchKeyword,
+    selectedSort,
+    resetParams,
+  } = useStore((state) => state);
 
   const [data, setData] = useState<Transaction_Entity[]>([]);
   const [isDataUpdated, setIsDataUpdated] = useState(false);
@@ -43,12 +48,12 @@ const Home = () => {
   );
 
   useEffect(() => {
-    if (!sortField.key) {
+    if (!selectedSort.field) {
       doFeedData();
       return;
     }
-    doSortingData(sortField.key, sortField.orderBy);
-  }, [transactionLists, sortField]);
+    doSortingData(selectedSort.field, selectedSort.orderBy);
+  }, [transactionLists, selectedSort]);
 
   useEffect(() => {
     /**

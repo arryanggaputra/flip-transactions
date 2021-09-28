@@ -17,3 +17,9 @@ export enum Transaction_Status_Entity {
   SUCCESS = "SUCCESS",
   PENDING = "PENDING",
 }
+
+export interface SortingList_Entity {
+  field?: keyof Transaction_Entity;
+  title: string;
+  orderBy: "asc" | "desc";
+}

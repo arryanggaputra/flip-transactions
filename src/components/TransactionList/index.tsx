@@ -3,13 +3,10 @@ import theme from "lib/Theme";
 import formatCurrency from "lib/utils/formatCurrency";
 import React, { useCallback } from "react";
 import { TouchableOpacity, View, Text, Image } from "react-native";
-import {
-  Transaction_Entity,
-  Transaction_Status_Entity,
-} from "../../types/index";
 import styles from "./styles";
 import ViewUtils from "components/utils/View";
 import formatDate from "lib/utils/formatDate";
+import { Transaction_Entity, Transaction_Status_Entity } from "types";
 
 interface ITransactionList {
   data: Transaction_Entity;

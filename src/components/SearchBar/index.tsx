@@ -11,7 +11,9 @@ interface ISearchBar {
 }
 
 const SearchBar: React.FC<ISearchBar> = (props) => {
-  const { setSearchKeyword, searchKeyword } = useStore((state) => state);
+  const { setSearchKeyword, searchKeyword, selectedSort } = useStore(
+    (state) => state
+  );
 
   const onChangeTex = debounce(
     useCallback((query: string) => {
@@ -43,7 +45,7 @@ const SearchBar: React.FC<ISearchBar> = (props) => {
           fontWeight="bold"
           color={theme.colors.orange}
         >
-          URUTKAN
+          {selectedSort.title}
         </Text>
         <Image
           source={require("components/icon/chevron.png")}

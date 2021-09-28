@@ -1,6 +1,9 @@
 import create from "zustand";
-import { getTransaction } from "lib/Service/transactions";
-import { Transaction_Entity } from "types";
+import {
+  getTransaction,
+  getTransactionSortLists,
+} from "lib/Service/transactions";
+import { SortingList_Entity, Transaction_Entity } from "types";
 
 type Store = {
   /**
@@ -25,14 +28,8 @@ type Store = {
   /**
    * sort params
    */
-  sortField: {
-    key: keyof Transaction_Entity | undefined;
-    orderBy: "asc" | "desc";
-  };
-  setSortField: (
-    key: keyof Transaction_Entity | undefined,
-    orderBy: "asc" | "desc"
-  ) => void;
+  selectedSort: SortingList_Entity;
+  setSelectedSort: (params: SortingList_Entity) => void;
 };
 
 const useStore = create<Store>(
@@ -49,10 +46,7 @@ const useStore = create<Store>(
 
     resetParams: () => {
       set({
-        sortField: {
-          key: undefined,
-          orderBy: "asc",
-        },
+        selectedSort: getTransactionSortLists[0],
         searchKeyword: "",
       });
     },
@@ -64,16 +58,10 @@ const useStore = create<Store>(
         searchKeyword,
       })),
 
-    sortField: {
-      key: undefined,
-      orderBy: "asc",
-    },
-    setSortField: (key, orderBy) => {
+    selectedSort: getTransactionSortLists[0],
+    setSelectedSort: (params) => {
       set({
-        sortField: {
-          key,
-          orderBy,
-        },
+        selectedSort: params,
       });
     },
   })
