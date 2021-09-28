@@ -12,6 +12,10 @@
    - date newest
    - date oldest
 
+## How to run
+make sure that you already install all dependencies by using `npm install` or `yarn install` 
+1. run `yarn ios` to run this project in iphone simulator
+2. run `yarn android` to run this project in android emulator
 
 ## Screenshot
 ![Transaction List Page](./screenshot/1.png)
