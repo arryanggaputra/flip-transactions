@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { Alert, Clipboard } from "react-native";
 import { RouteProp, useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Text from "components/utils/Text";
 import View from "components/utils/View";
 import { RootStackParamList, RoutingName } from "lib/Navigation/type";
 import theme from "lib/Theme";
-import { TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import formatCurrency from "lib/utils/formatCurrency";
 import formatDate from "lib/utils/formatDate";
 
@@ -20,6 +21,11 @@ const DetailTransaction: React.FC<{
   const navigation = useNavigation<TDetailTransaction>();
   const { data } = props.route.params;
 
+  const copyTransactionId = useCallback(async () => {
+    await Clipboard.setString(data.id);
+    Alert.alert("Berhasil Disalin");
+  }, [data]);
+
   return (
     <>
       <View marginTop={theme.size.xl} backgroundColor={theme.colors.white}>
@@ -27,8 +33,20 @@ const DetailTransaction: React.FC<{
           padding={theme.size.xl}
           borderBottomWidth={1}
           borderBottomColor={theme.colors.lightGray}
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
         >
-          <Text fontWeight="bold">ID TRANSAKSI: #{data.id}</Text>
+          <Text fontWeight="bold" paddingRight={theme.size.md}>
+            ID TRANSAKSI: #{data.id}
+          </Text>
+          <TouchableOpacity onPress={copyTransactionId}>
+            <Image
+              source={require("components/icon/copy.png")}
+              style={{ width: 13, height: 16 }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         </View>
         <View
           justifyContent="space-between"
