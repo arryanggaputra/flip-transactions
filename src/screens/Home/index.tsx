@@ -12,6 +12,7 @@ import SearchBar from "components/SearchBar";
 import ViewUtils from "components/utils/View";
 import ModalSort from "./components/ModalSort";
 import useTransactionData from "./hooks/useTransactionData";
+import Text from "components/utils/Text";
 
 type THome = NativeStackNavigationProp<RootStackParamList, RoutingName.HOME>;
 
@@ -63,6 +64,19 @@ const Home = () => {
     );
   }, []);
 
+  const ListEmptyComponent = useMemo(() => {
+    return (
+      <ViewUtils
+        backgroundColor="white"
+        justifyContent="center"
+        padding={theme.size.lg}
+        marginBottom={theme.size.lg}
+      >
+        <Text color={theme.colors.orange}>No Data</Text>
+      </ViewUtils>
+    );
+  }, []);
+
   return (
     <View style={styles.container}>
       <Modal
@@ -85,6 +99,7 @@ const Home = () => {
         extraData={transactionDataUpdated}
         renderItem={renderItem}
         ListHeaderComponent={ListHeaderComponent}
+        ListEmptyComponent={ListEmptyComponent}
         onEndReachedThreshold={0.5}
         ItemSeparatorComponent={() => <ViewUtils height={theme.size.md} />}
         contentContainerStyle={{ padding: theme.size.md }}
