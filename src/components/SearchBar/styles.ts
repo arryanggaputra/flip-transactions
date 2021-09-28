@@ -14,6 +14,13 @@ const styles = StyleSheet.create({
   searchBar__input: {
     flex: 1,
     paddingVertical: theme.size.md,
+    marginLeft: theme.size.md,
+  },
+
+  searchBar__sorting__button: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 

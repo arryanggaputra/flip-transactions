@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { TextInput, TouchableOpacity, View } from "react-native";
+import { Image, TextInput, TouchableOpacity, View } from "react-native";
 import theme from "lib/Theme";
 import debounce from "lib/utils/debounce";
 import useStore from "lib/Store";
@@ -22,16 +22,34 @@ const SearchBar: React.FC<ISearchBar> = (props) => {
 
   return (
     <View style={styles.searchBar}>
+      <Image
+        source={require("components/icon/magnifier.png")}
+        style={{ width: 20, height: 20 }}
+      />
       <TextInput
         style={styles.searchBar__input}
         defaultValue={searchKeyword}
         onChangeText={onChangeTex}
         placeholder="Cari nama, bank, atau nominal"
+        placeholderTextColor={theme.colors.gray}
       />
-      <TouchableOpacity onPress={props.onPressSorting}>
-        <Text fontSize={12} fontWeight="bold" color={theme.colors.orange}>
+      <TouchableOpacity
+        style={styles.searchBar__sorting__button}
+        onPress={props.onPressSorting}
+      >
+        <Text
+          paddingRight={3}
+          fontSize={12}
+          fontWeight="bold"
+          color={theme.colors.orange}
+        >
           URUTKAN
         </Text>
+        <Image
+          source={require("components/icon/chevron.png")}
+          style={{ width: 13, height: 8 }}
+          resizeMode="contain"
+        />
       </TouchableOpacity>
     </View>
   );

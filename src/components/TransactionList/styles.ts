@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   card: {
     display: "flex",
     flexDirection: "row",
-    borderRadius: theme.size.md,
+    borderRadius: theme.size.sm,
     overflow: "hidden",
     alignItems: "center",
     backgroundColor: theme.colors.white,
@@ -17,13 +17,31 @@ const styles = StyleSheet.create({
     padding: theme.size.lg,
   },
 
+  card__content__title__wrapper: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
   card__content__title: {
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 16,
+    marginBottom: 2,
+    textTransform: "uppercase",
+  },
+  card__content__title__icon: {
+    height: 13,
+    backgroundColor: "red",
+    width: 14,
+    marginHorizontal: theme.size.xs,
+  },
+  card__content__title__name: {
+    textTransform: "uppercase",
+    paddingBottom: 2,
   },
 
   card__border: {
-    width: theme.size.md,
+    width: theme.size.sm,
     backgroundColor: theme.colors.green,
     height: "100%",
   },

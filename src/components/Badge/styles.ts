@@ -3,12 +3,12 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   badge: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: theme.colors.green,
     backgroundColor: theme.colors.green,
-    borderRadius: theme.size.sm,
-    paddingVertical: theme.size.xs,
-    paddingHorizontal: theme.size.sm,
+    borderRadius: theme.size.xs,
+    paddingVertical: theme.size.xs - 1,
+    paddingHorizontal: theme.size.sm + 2,
   },
 
   badge__secondary: {
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   badge__text: {
     color: theme.colors.white,
     fontWeight: "bold",
+    fontSize: 11,
   },
 
   badge__text__secondary: {

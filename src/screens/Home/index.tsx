@@ -134,8 +134,8 @@ const Home = () => {
         renderItem={renderItem}
         ListHeaderComponent={ListHeaderComponent}
         onEndReachedThreshold={0.5}
-        ItemSeparatorComponent={() => <ViewUtils height={theme.size.lg} />}
-        contentContainerStyle={{ padding: theme.size.lg }}
+        ItemSeparatorComponent={() => <ViewUtils height={theme.size.md} />}
+        contentContainerStyle={{ padding: theme.size.md }}
       />
     </View>
   );
