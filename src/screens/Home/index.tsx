@@ -11,84 +11,31 @@ import useStore from "lib/Store";
 import SearchBar from "components/SearchBar";
 import ViewUtils from "components/utils/View";
 import ModalSort from "./components/ModalSort";
-import sortGeneric from "lib/utils/sortGeneric";
+import useTransactionData from "./hooks/useTransactionData";
 
 type THome = NativeStackNavigationProp<RootStackParamList, RoutingName.HOME>;
 
 const Home = () => {
   const navigation = useNavigation<THome>();
-
-  const {
-    initData,
-    transactionLists,
-    searchKeyword,
-    selectedSort,
-    resetParams,
-  } = useStore((state) => state);
-
-  const [data, setData] = useState<Transaction_Entity[]>([]);
-  const [isDataUpdated, setIsDataUpdated] = useState(false);
+  const { resetParams } = useStore((state) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalSortVisible, setIsModalSortVisible] = useState(false);
-
-  useEffect(() => {
-    initData();
-  }, []);
-
-  const doFeedData = useCallback(() => {
-    setData(transactionLists);
-  }, [transactionLists]);
-
-  const doSortingData = useCallback(
-    (field: keyof Transaction_Entity, orderBy: "asc" | "desc") => {
-      let _data = [...data].sort(sortGeneric(field, orderBy));
-      setData(_data);
-    },
-    [data]
-  );
-
-  useEffect(() => {
-    if (!selectedSort.field) {
-      doFeedData();
-      return;
-    }
-    doSortingData(selectedSort.field, selectedSort.orderBy);
-  }, [transactionLists, selectedSort]);
+  const { transactionData, refreshTransactionData, transactionDataUpdated } =
+    useTransactionData();
 
   useEffect(() => {
     /**
      * Hide modal every data change
      */
     setIsModalSortVisible(false);
-    setIsDataUpdated(!data);
     setIsLoading(false);
-  }, [data]);
+  }, [transactionData]);
 
   const onRefreshTransactionLists = useCallback(() => {
     setIsLoading(true);
-    initData();
+    refreshTransactionData();
     resetParams();
   }, []);
-
-  const searchByKeyword = useCallback(
-    (query) => {
-      let data = transactionLists.filter((item) => {
-        return (
-          item.amount.toString().toLowerCase().includes(query) ||
-          item.sender_bank.toLowerCase().includes(query) ||
-          item.beneficiary_bank.toLowerCase().includes(query) ||
-          item.beneficiary_name.toLowerCase().includes(query)
-        );
-      });
-      setData(data);
-    },
-    [transactionLists]
-  );
-
-  useEffect(() => {
-    let query = searchKeyword.toLowerCase();
-    searchByKeyword(query);
-  }, [searchKeyword]);
 
   const onPressTransactionRow = useCallback((data: Transaction_Entity) => {
     navigation.navigate(RoutingName.DETAIL_TRANSACTION, {
@@ -134,8 +81,8 @@ const Home = () => {
           />
         }
         keyExtractor={(item) => item.id}
-        data={data}
-        extraData={isDataUpdated}
+        data={transactionData}
+        extraData={transactionDataUpdated}
         renderItem={renderItem}
         ListHeaderComponent={ListHeaderComponent}
         onEndReachedThreshold={0.5}

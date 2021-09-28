@@ -18,7 +18,6 @@ const formatDate = (value: string) => {
   let string = `${date.getDate()} ${
     Monthlabel[date.getMonth() - 1]
   } ${date.getFullYear()}`;
-  console.log({ string, date });
   return string;
 };
 

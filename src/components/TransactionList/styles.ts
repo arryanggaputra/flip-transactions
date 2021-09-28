@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
   },
   card__content__title__icon: {
     height: 13,
-    backgroundColor: "red",
     width: 14,
     marginHorizontal: theme.size.xs,
   },
