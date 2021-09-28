@@ -7,6 +7,7 @@ import styles from "./styles";
 import ViewUtils from "components/utils/View";
 import formatDate from "lib/utils/formatDate";
 import { Transaction_Entity, Transaction_Status_Entity } from "types";
+import TransactionBankName from "components/TransactionBankName";
 
 interface ITransactionList {
   data: Transaction_Entity;
@@ -30,16 +31,10 @@ const TransactionList: React.FC<ITransactionList> = (props) => {
         ]}
       />
       <View style={styles.card__content}>
-        <View style={styles.card__content__title__wrapper}>
-          <Text style={styles.card__content__title}>{data.sender_bank}</Text>
-          <Image
-            source={require("components/icon/arrow.png")}
-            style={styles.card__content__title__icon}
-          />
-          <Text style={styles.card__content__title}>
-            {data.beneficiary_bank}
-          </Text>
-        </View>
+        <TransactionBankName
+          from={data.sender_bank}
+          to={data.beneficiary_bank}
+        />
         <Text style={styles.card__content__title__name}>
           {data.beneficiary_name}
         </Text>

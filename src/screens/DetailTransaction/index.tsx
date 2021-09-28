@@ -9,6 +9,7 @@ import theme from "lib/Theme";
 import { Image, TouchableOpacity } from "react-native";
 import formatCurrency from "lib/utils/formatCurrency";
 import formatDate from "lib/utils/formatDate";
+import TransactionBankName from "components/TransactionBankName";
 
 type TDetailTransaction = NativeStackNavigationProp<
   RootStackParamList,
@@ -64,6 +65,12 @@ const DetailTransaction: React.FC<{
         </View>
 
         <View padding={theme.size.xl}>
+          <View marginBottom={theme.size.xl}>
+            <TransactionBankName
+              from={data.sender_bank}
+              to={data.beneficiary_bank}
+            />
+          </View>
           <View flexDirection="row" marginBottom={theme.size.xl}>
             <View flex={2}>
               <Text fontWeight="bold">{data.beneficiary_name}</Text>
